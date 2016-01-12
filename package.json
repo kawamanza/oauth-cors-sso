@@ -1,0 +1,27 @@
+{
+  "name": "oauth-cors-sso",
+  "version": "0.0.1",
+  "description": "OAuth Single-SignOn with Ajax+CORS",
+  "main": "oauth-cors-sso.js",
+  "scripts": {
+    "test": "grunt test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/kawamanza/oauth-cors-sso.git"
+  },
+  "keywords": [
+    "oauth",
+    "client",
+    "browser",
+    "ajax",
+    "sso",
+    "signer"
+  ],
+  "author": "Marcelo Manzan",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kawamanza/oauth-cors-sso/issues"
+  },
+  "homepage": "https://github.com/kawamanza/oauth-cors-sso#readme"
+}
