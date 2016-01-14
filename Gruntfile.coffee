@@ -25,7 +25,7 @@ module.exports = (grunt) ->
 				vendor: [
 					'http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js'
 				]
-				host: 'http://local.ext-webapp.com:<%= connect.server.options.port %>/'
+				host: 'http://localhost:<%= connect.server.options.port %>/'
 				specs: [
 					'test/*_spec.js'
 				]
