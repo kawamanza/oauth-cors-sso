@@ -5,6 +5,14 @@ module.exports = (grunt) ->
 			throw new Error "not implemented"
 			return
 
+	helpers =
+		middlewares:
+			known_route_service: (req, res, next) ->
+				service = routes[req.url]
+				return next() unless service?
+				service req, res, next
+				return
+
 	grunt.initConfig
 		connect:
 			server:
@@ -13,11 +21,9 @@ module.exports = (grunt) ->
 					hostname: '*'
 					base: '.'
 					middleware: (connect, options, middlewares) ->
-						middlewares.unshift (req, res, next) ->
-							service = routes[req.url]
-							return next() unless service?
-							service req, res, next
-							return
+						middlewares[-1..-2] = [
+							helpers.middlewares.known_route_service
+						]
 						middlewares
 		jasmine:
 			options:
