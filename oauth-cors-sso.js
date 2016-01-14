@@ -14,6 +14,22 @@
 	}
 
 	OAuthSSO.prototype.sign = function (baseString, callback) {
-		callback(void(0), "BLA");	// TODO: sign using Ajax
+		var data, signer;
+		signer = this.options.signer;
+		data = {baseString: baseString};
+		if (typeof signer.csrf_param === "object") {
+			data[signer.csrf_param.name] = signer.csrf_param.value;
+		}
+
+		$.ajax(signer.path, {
+			method: "POST",
+			data: data,
+			dataType: "json",
+			statusCode: {
+				200: function (data, textStatus, jqXHR) {
+					callback(void(0), data.signature);
+				}
+			}
+		});
 	};
 });
