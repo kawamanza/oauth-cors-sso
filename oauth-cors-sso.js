@@ -36,4 +36,25 @@
 			}
 		});
 	};
+
+	// OAuth helpers
+
+	function oauth_nonce(length) {
+		var pLen, possible, text;
+		text = "";
+		possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+		pLen = possible.length;
+		if (!length) {
+			length = Math.floor(Math.random() * 8) + 8;
+		}
+		for (var i = 0; i < length; i++) {
+				text += possible.charAt(Math.floor(Math.random() * pLen));
+		}
+		return text;
+	}
+
+	function oauth_timestamp() {
+		return (new Date().getTime() / 1000) | 0;
+	}
+
 });
