@@ -31,7 +31,7 @@
 					callback("forbidden", {});
 				},
 				200: function (data, textStatus, jqXHR) {
-					callback(void(0), data.signature);
+					callback(void(0), data);
 				}
 			}
 		});
