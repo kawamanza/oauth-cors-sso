@@ -14,7 +14,6 @@ module.exports = (grunt) ->
 					base: '.'
 					middleware: (connect, options, middlewares) ->
 						middlewares.unshift (req, res, next) ->
-							return next() if req.url isnt '/sign'
 							service = routes[req.url]
 							return next() unless service?
 							service req, res, next
