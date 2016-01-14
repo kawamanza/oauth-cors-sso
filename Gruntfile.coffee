@@ -27,6 +27,14 @@ module.exports = (grunt) ->
 						req.params = qs.parse body
 					next()
 				return
+			parse_cookies: (req, res, next) ->
+				cookies = req.headers.cookie
+				req.cookies = {}
+				return next() unless cookies?
+				for cookie in cookies.split(';')
+					parts = cookie.split('=')
+					req.cookies[parts.shift().trim()] = decodeURI(parts.join('='))
+				next()
 			known_route_service: (req, res, next) ->
 				service = routes[req.method]?[req.url]
 				return next() unless service?
@@ -43,6 +51,7 @@ module.exports = (grunt) ->
 					middleware: (connect, options, middlewares) ->
 						middlewares[-1..-2] = [
 							helpers.middlewares.parse_post_body
+							helpers.middlewares.parse_cookies
 							helpers.middlewares.known_route_service
 						]
 						middlewares
