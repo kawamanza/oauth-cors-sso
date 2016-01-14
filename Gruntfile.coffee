@@ -3,13 +3,14 @@ module.exports = (grunt) ->
 	crypto = require 'crypto'
 
 	routes =
-		'/signer': (req, res, next) ->
-			signer = crypto.createSign "RSA-SHA1"
-			signer.update req.params.baseString
-			signature = signer.sign grunt.file.read("test/rsakeys/cert.priv.key"), "base64"
-			res.setHeader "Content-Type", "application/json; charset=UTF-8"
-			res.end JSON.stringify({signature: signature})
-			return
+		POST:
+			'/signer': (req, res, next) ->
+				signer = crypto.createSign "RSA-SHA1"
+				signer.update req.params.baseString
+				signature = signer.sign grunt.file.read("test/rsakeys/cert.priv.key"), "base64"
+				res.setHeader "Content-Type", "application/json; charset=UTF-8"
+				res.end JSON.stringify({signature: signature})
+				return
 
 	helpers =
 		middlewares:
@@ -27,7 +28,7 @@ module.exports = (grunt) ->
 					next()
 				return
 			known_route_service: (req, res, next) ->
-				service = routes[req.url]
+				service = routes[req.method]?[req.url]
 				return next() unless service?
 				service req, res, next
 				return
