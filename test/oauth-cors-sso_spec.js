@@ -21,4 +21,21 @@ describe("Calling /signer of current webapp", function () {
 			done();
 		});
 	});
+
+	it("expects to set the session cookie to the external webapp", function (done) {
+		var oauth = new OAuthSSO({
+			sso: {
+				service_url: "http://local-sso.panel.my-webapp.com:9001/sso/intranet",
+				consumer_key: "key"
+			},
+			signer: {
+				path: "/signer",
+				csrf_param: {
+					name: "_csrf_token",
+					value: ""
+				}
+			}
+		});
+		pending("not implemented yet");
+	});
 });
