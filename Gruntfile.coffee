@@ -23,7 +23,7 @@ module.exports = (grunt) ->
 		jasmine:
 			options:
 				vendor: [
-					'http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js'
+					'test/vendor/*.js'
 				]
 				host: 'http://localhost:<%= connect.server.options.port %>/'
 				specs: [
