@@ -21,11 +21,15 @@
 			data[signer.csrf_param.name] = signer.csrf_param.value;
 		}
 
+		// See http://api.jquery.com/jquery.ajax/#jQuery-ajax-settings
 		$.ajax(signer.path, {
 			method: "POST",
 			data: data,
 			dataType: "json",
 			statusCode: {
+				403: function (jqXHR, textStatus, errorThrown) {
+					callback("forbidden", {});
+				},
 				200: function (data, textStatus, jqXHR) {
 					callback(void(0), data.signature);
 				}

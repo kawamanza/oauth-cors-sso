@@ -3,8 +3,18 @@ module.exports = (grunt) ->
 	crypto = require 'crypto'
 
 	routes =
+		GET:
+			'/new_session.js': (req, res, next) ->
+				res.setHeader "Set-Cookie", "_my_session_token=1ab5c"
+				res.setHeader "Content-Type", "text/javascript; charset=UTF-8"
+				res.end ""
+				return
 		POST:
 			'/signer': (req, res, next) ->
+				if req.cookies._my_session_token isnt "1ab5c"
+					res.writeHead 403, "Content-Type": "application/json; charset=UTF-8"
+					res.end "{}"
+					return
 				signer = crypto.createSign "RSA-SHA1"
 				signer.update req.params.baseString
 				signature = signer.sign grunt.file.read("test/rsakeys/cert.priv.key"), "base64"
@@ -59,6 +69,9 @@ module.exports = (grunt) ->
 			options:
 				vendor: [
 					'test/vendor/*.js'
+				]
+				helpers: [
+					'new_session.js'
 				]
 				host: 'http://localhost:<%= connect.server.options.port %>/'
 				specs: [
