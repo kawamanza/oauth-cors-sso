@@ -26,15 +26,12 @@ module.exports = (grunt) ->
 				return
 			'/sso/intranet': (req, res, next) ->
 				# TODO: check Authorization header
-				res.setHeader "Access-Control-Allow-Origin", "*"
 				res.setHeader "Content-Type", "application/json; charset=UTF-8"
 				res.end JSON.stringify({location_href: "http://local-intranet.panel.my-webapp.com:9001/"})
 				return
 		OPTIONS:
 			'/sso/intranet': (req, res, next) ->
 				res.setHeader "Accept-Method", "POST"
-				res.setHeader "Access-Control-Allow-Origin", "*"
-				res.setHeader "Access-Control-Allow-Headers", "Authorization, Content-Type"
 				res.end ''
 				return
 
@@ -66,6 +63,13 @@ module.exports = (grunt) ->
 				return next() unless service?
 				service req, res, next
 				return
+			allow_origin_response: (req, res, next) ->
+				if req.headers['x-requested-with'] or req.headers.origin
+					res.setHeader "Access-Control-Allow-Origin", req.headers.origin
+					res.setHeader "Access-Control-Allow-Headers", "authorization, content-type, x-requested-with"
+					res.setHeader "Access-Control-Expose-Headers", "cookie, location, set-cookie"
+					res.setHeader "Access-Control-Allow-Credentials", true
+				next()
 
 	grunt.initConfig
 		bower:
@@ -83,6 +87,7 @@ module.exports = (grunt) ->
 						middlewares[-1..-2] = [
 							helpers.middlewares.parse_post_body
 							helpers.middlewares.parse_cookies
+							helpers.middlewares.allow_origin_response
 							helpers.middlewares.known_route_service
 						]
 						middlewares
