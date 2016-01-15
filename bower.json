@@ -1,0 +1,28 @@
+{
+  "name": "oauth-cors-sso",
+  "description": "OAuth Single-SignOn with Ajax+CORS",
+  "main": "oauth-cors-sso.js",
+  "authors": [
+    "Marcelo Manzan"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "oauth",
+    "client",
+    "browser",
+    "ajax",
+    "sso",
+    "signer"
+  ],
+  "homepage": "https://github.com/kawamanza/oauth-cors-sso",
+  "moduleType": [
+    "globals"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
