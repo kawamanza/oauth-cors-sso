@@ -40,7 +40,19 @@ describe("Creating authenticated session into external domain", function () {
 		});
 		oauth.auth(function (destination_href) {
 			expect(destination_href).toEqual("http://local-intranet.panel.my-webapp.com:9001/");
-			done();
+			$.ajax(destination_href, {
+				method: "GET",
+				crossDomain: true,
+				xhrFields: {
+					withCredentials: true
+				},
+				statusCode: {
+					200: function (data, textStatus, jqXHR) {
+						expect(data).toEqual({cookies: {_my_panel_session_token: expectedTokens._my_panel_session_token}});
+						done();
+					}
+				}
+			});
 		});
 	});
 });

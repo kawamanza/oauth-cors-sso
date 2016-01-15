@@ -1,22 +1,26 @@
 module.exports = (grunt) ->
 	qs = require 'querystring'
 	crypto = require 'crypto'
+	tokens =
+		_my_session_token: "1ab5c"
+		_my_panel_session_token: "1234567"
 
 	routes =
 		GET:
 			'/': (req, res, next) ->
-				res.end ''
+				res.setHeader "Content-Type", "application/json; charset=UTF-8"
+				res.end JSON.stringify(cookies: req.cookies)
 				return
 			'/new_session.js': (req, res, next) ->
 				res.setHeader "Set-Cookie", "_my_session_token=1ab5c"
 				res.setHeader "Content-Type", "text/javascript; charset=UTF-8"
-				res.end ""
+				res.end "var expectedTokens = #{JSON.stringify(tokens)};"
 				return
 		POST:
 			'/signer': (req, res, next) ->
-				if req.cookies._my_session_token isnt "1ab5c"
+				if req.cookies._my_session_token isnt tokens._my_session_token
 					res.writeHead 403, "Content-Type": "application/json; charset=UTF-8"
-					res.end "{}"
+					res.end JSON.stringify req.cookies
 					return
 				signer = crypto.createSign "RSA-SHA1"
 				signer.update req.params.baseString
@@ -29,7 +33,7 @@ module.exports = (grunt) ->
 				res.setHeader "Content-Type", "application/json; charset=UTF-8"
 				expires = new Date()
 				expires.setTime(expires.getTime() + 3600000)
-				res.setHeader "Set-Cookie", "_my_panel_session_token=1234567; path=/; domain=.panel.my-webapp.com; expires=#{expires.toGMTString()}"
+				res.setHeader "Set-Cookie", "_my_panel_session_token=#{tokens._my_panel_session_token}; path=/; domain=.panel.my-webapp.com; expires=#{expires.toGMTString()}"
 				res.end JSON.stringify({location_href: "http://local-intranet.panel.my-webapp.com:9001/"})
 				return
 		OPTIONS:
