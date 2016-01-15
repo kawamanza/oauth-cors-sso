@@ -37,6 +37,20 @@
 		});
 	};
 
+	function waterfall(tasks, callback) {
+		var iterator = tasks.slice(0);
+		function next(err) {
+			if (err || !iterator.length) {
+				callback.apply(null, arguments);
+			} else {
+				var args = iterator.slice.call(arguments, 1);
+				args.push(next);
+				iterator.shift().apply(null, args);
+			}
+		}
+		next();
+	}
+
 	// OAuth helpers
 
 	function oauth_nonce(length) {
