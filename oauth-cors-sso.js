@@ -7,7 +7,8 @@
 		factory(this.jQuery || this.Zepto);
 	}
 })(function ($) {
-	this.OAuthSSO = OAuthSSO
+	var window = this;
+	window.OAuthSSO = OAuthSSO
 
 	function OAuthSSO(options) {
 		this.options = options;
@@ -33,6 +34,55 @@
 				200: function (data, textStatus, jqXHR) {
 					callback(void(0), data);
 				}
+			}
+		});
+	};
+
+	OAuthSSO.prototype.redirect = function (href) {
+		window.location.href = href;
+	};
+
+	OAuthSSO.prototype.auth = function () {
+		var baseString, oauth, oauthParams, signer, sso;
+		oauth = this;
+		signer = oauth.options.signer;
+		sso = oauth.options.sso;
+		oauthParams = {
+			oauth_consumer_key: sso.consumer_key,
+			oauth_nonce: oauth_nonce(),
+			oauth_timestamp: oauth_timestamp(),
+			oauth_signature_method: "RSA-SHA1",
+			oauth_version: "1.0"
+		};
+		baseString = [
+			"POST",
+			baseStringUrl(sso.service_url),
+			baseStringParams(oauthParams)
+		].join("&");
+		waterfall([
+			function (callback) {
+				oauth.sign(baseString, callback);
+			},
+			function (data, callback) {
+				oauthParams.oauth_signature = data.signature;
+				$.ajax(sso.service_url, {
+					method: "POST",
+					data: data.userinfo || {},
+					dataType: "json",
+					contentType: "json",
+					beforeSend: function (xhr) {
+						xhr.setRequestHeader("Authorization", "OAuth " + dumpOAuthHeader(oauthParams));
+					},
+					statusCode: {
+						200: function (data, textStatus, jqXHR) {
+							callback(null, data.location_href);
+						}
+					}
+				});
+			}
+		], function (error, href) {
+			if (!error) {
+				oauth.redirect(href);
 			}
 		});
 	};

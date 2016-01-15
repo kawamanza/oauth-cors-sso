@@ -4,6 +4,9 @@ module.exports = (grunt) ->
 
 	routes =
 		GET:
+			'/': (req, res, next) ->
+				res.end ''
+				return
 			'/new_session.js': (req, res, next) ->
 				res.setHeader "Set-Cookie", "_my_session_token=1ab5c"
 				res.setHeader "Content-Type", "text/javascript; charset=UTF-8"
@@ -20,6 +23,19 @@ module.exports = (grunt) ->
 				signature = signer.sign grunt.file.read("test/rsakeys/cert.priv.key"), "base64"
 				res.setHeader "Content-Type", "application/json; charset=UTF-8"
 				res.end JSON.stringify({signature: signature})
+				return
+			'/sso/intranet': (req, res, next) ->
+				# TODO: check Authorization header
+				res.setHeader "Access-Control-Allow-Origin", "*"
+				res.setHeader "Content-Type", "application/json; charset=UTF-8"
+				res.end JSON.stringify({location_href: "http://local-intranet.panel.my-webapp.com:9001/"})
+				return
+		OPTIONS:
+			'/sso/intranet': (req, res, next) ->
+				res.setHeader "Accept-Method", "POST"
+				res.setHeader "Access-Control-Allow-Origin", "*"
+				res.setHeader "Access-Control-Allow-Headers", "Authorization, Content-Type"
+				res.end ''
 				return
 
 	helpers =

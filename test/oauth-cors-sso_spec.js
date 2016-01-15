@@ -36,6 +36,10 @@ describe("Calling /signer of current webapp", function () {
 				}
 			}
 		});
-		pending("not implemented yet");
+		oauth.redirect = function (href) {
+			expect(href).toEqual("http://local-intranet.panel.my-webapp.com:9001/");
+			done();
+		};
+		oauth.auth();
 	});
 });
