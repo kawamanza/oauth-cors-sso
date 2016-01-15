@@ -68,6 +68,10 @@ module.exports = (grunt) ->
 				return
 
 	grunt.initConfig
+		bower:
+			install:
+				options:
+					targetDir: './test/vendor'
 		connect:
 			server:
 				options:
@@ -101,8 +105,10 @@ module.exports = (grunt) ->
 
 	grunt.loadNpmTasks "grunt-contrib-connect"
 	grunt.loadNpmTasks "grunt-contrib-jasmine"
+	grunt.loadNpmTasks "grunt-bower-task"
 
 	grunt.registerTask 'test', [
+		'bower:install'
 		'connect'
 		'jasmine'
 	]
