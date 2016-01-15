@@ -27,6 +27,9 @@ module.exports = (grunt) ->
 			'/sso/intranet': (req, res, next) ->
 				# TODO: check Authorization header
 				res.setHeader "Content-Type", "application/json; charset=UTF-8"
+				expires = new Date()
+				expires.setTime(expires.getTime() + 3600000)
+				res.setHeader "Set-Cookie", "_my_panel_session_token=1234567; path=/; domain=.panel.my-webapp.com; expires=#{expires.toGMTString()}"
 				res.end JSON.stringify({location_href: "http://local-intranet.panel.my-webapp.com:9001/"})
 				return
 		OPTIONS:
