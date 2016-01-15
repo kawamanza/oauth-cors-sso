@@ -71,4 +71,19 @@
 		return (new Date().getTime() / 1000) | 0;
 	}
 
+	function baseStringUrl(url) {
+		// TODO: encode string acording to OAuth Spec
+		return url;
+	}
+
+	function baseStringParams(params) {
+		// TODO: encode string acording to OAuth Spec
+		return $.param(params);
+	}
+
+	function dumpOAuthHeader(oauthParams) {
+		// TODO: encode string acording to OAuth Spec
+		return $.param(oauthParams).split("&").join(",").replace(/([^,=]+)=([^,]+)/g, "\"$1\"=\"$2\"");
+	}
+
 });
