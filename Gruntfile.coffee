@@ -71,6 +71,7 @@ module.exports = (grunt) ->
 		connect:
 			server:
 				options:
+					# keepalive: true
 					port: 9001
 					hostname: '*'
 					base: '.'
@@ -83,6 +84,7 @@ module.exports = (grunt) ->
 						middlewares
 		jasmine:
 			options:
+				# keepRunner: true
 				vendor: [
 					'test/vendor/*.js'
 				]
