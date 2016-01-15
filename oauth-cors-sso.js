@@ -133,7 +133,7 @@
 
 	function dumpOAuthHeader(oauthParams) {
 		// TODO: encode string acording to OAuth Spec
-		return $.param(oauthParams).split("&").join(",").replace(/([^,=]+)=([^,]+)/g, "\"$1\"=\"$2\"");
+		return $.param(oauthParams).split("&").join(",").replace(/([^,=]+)=([^,]+)/g, "$1=\"$2\"");
 	}
 
 });
