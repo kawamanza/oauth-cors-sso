@@ -90,7 +90,7 @@ module.exports = (grunt) ->
 			options:
 				# keepRunner: true
 				vendor: [
-					'test/vendor/*.js'
+					'test/vendor/**/*.js'
 				]
 				helpers: [
 					'new_session.js'
