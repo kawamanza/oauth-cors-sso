@@ -21,7 +21,9 @@ describe("Calling /signer of current webapp", function () {
 			done();
 		});
 	});
+});
 
+describe("Creating authenticated session into external domain", function () {
 	it("expects to set the session cookie to the external webapp", function (done) {
 		var oauth = new OAuthSSO({
 			sso: {
