@@ -38,11 +38,7 @@
 		});
 	};
 
-	OAuthSSO.prototype.redirect = function (href) {
-		window.location.href = href;
-	};
-
-	OAuthSSO.prototype.auth = function () {
+	OAuthSSO.prototype.auth = function (callback) {
 		var baseString, oauth, oauthParams, signer, sso;
 		oauth = this;
 		signer = oauth.options.signer;
@@ -82,7 +78,7 @@
 			}
 		], function (error, href) {
 			if (!error) {
-				oauth.redirect(href);
+				callback(href);
 			}
 		});
 	};

@@ -38,10 +38,9 @@ describe("Creating authenticated session into external domain", function () {
 				}
 			}
 		});
-		oauth.redirect = function (href) {
-			expect(href).toEqual("http://local-intranet.panel.my-webapp.com:9001/");
+		oauth.auth(function (destination_href) {
+			expect(destination_href).toEqual("http://local-intranet.panel.my-webapp.com:9001/");
 			done();
-		};
-		oauth.auth();
+		});
 	});
 });
