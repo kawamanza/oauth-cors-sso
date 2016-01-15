@@ -66,6 +66,10 @@
 					data: data.userinfo || {},
 					dataType: "json",
 					contentType: "json",
+					crossDomain: true,
+					xhrFields: {
+						withCredentials: true
+					},
 					beforeSend: function (xhr) {
 						xhr.setRequestHeader("Authorization", "OAuth " + dumpOAuthHeader(oauthParams));
 					},
