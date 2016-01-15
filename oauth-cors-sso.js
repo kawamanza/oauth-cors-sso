@@ -8,7 +8,7 @@
 	}
 })(function ($) {
 	var window = this;
-	window.OAuthSSO = OAuthSSO
+	window.OAuthSSO = OAuthSSO;
 
 	function OAuthSSO(options) {
 		this.options = options;
