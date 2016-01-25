@@ -12,7 +12,7 @@ module.exports = (grunt) ->
 				res.setHeader "Content-Type", "application/json; charset=UTF-8"
 				res.end JSON.stringify(cookies: req.cookies)
 				return
-			'/new_session.js': (req, res, next) ->
+			'/my_current_session_mock.js': (req, res, next) ->
 				res.setHeader "Set-Cookie", "_my_session_token=#{tokens._my_session_token}"
 				res.setHeader "Content-Type", "text/javascript; charset=UTF-8"
 				res.end "var expectedTokens = #{JSON.stringify(tokens)};"
@@ -115,7 +115,7 @@ module.exports = (grunt) ->
 					'test/vendor/**/*.js'
 				]
 				helpers: [
-					'new_session.js'
+					'my_current_session_mock.js'
 				]
 				host: 'http://localhost:<%= connect.server.options.port %>/'
 				specs: [
