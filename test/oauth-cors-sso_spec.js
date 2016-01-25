@@ -17,7 +17,7 @@ describe("Calling /signer of current webapp", function () {
 		var oauth_signature = "NMq95NIkIi+659uoTfqxM7voTk7JYVTBp5awpC1/9XoA0pAxz3PT9f/9TG1+CdOyPtizAc5G+wh/PAuJ2jdGkbvodI351MnUxVh4qzFKpAd9S1Vlxdmsi0ZiAEbOOqdB6Odgv6C9tK/A3X3iHA2k+hdqm2Q0tJ3z0Di0TKb62Q9XGlYzkmsz3k44AakN6hnW52bQ9bbxHS9jcv37RKCHF/gSCOrp349thGE9tZZ+kqaeetdyhl2THaSy3wuUgDGmdmOwHoyO1rET1wPjAZiX0dFobYQw/EgV2ogfxMAB8HyklRRih2CNXXmlDuIZYuSi8vPspvCVCM8bNMVFclpwew==";
 		oauth.sign(baseString, function (error, data) {
 			expect(error).toBeUndefined();
-			expect(data).toEqual({signature: oauth_signature});
+			expect(data).toEqual({signature: oauth_signature, userData: {name: "John", email: "john@email.me"}});
 			done();
 		});
 	});

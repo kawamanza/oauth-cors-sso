@@ -18,6 +18,7 @@ module.exports = (grunt) ->
 				return
 		POST:
 			'/signer': (req, res, next) ->
+				# check active session
 				if req.cookies._my_session_token isnt tokens._my_session_token
 					res.writeHead 403, "Content-Type": "application/json; charset=UTF-8"
 					res.end JSON.stringify req.cookies
@@ -26,7 +27,11 @@ module.exports = (grunt) ->
 				signer.update req.params.baseString
 				signature = signer.sign grunt.file.read("test/rsakeys/cert.priv.key"), "base64"
 				res.setHeader "Content-Type", "application/json; charset=UTF-8"
-				res.end JSON.stringify({signature: signature})
+				res.end JSON.stringify
+					signature: signature
+					userData:
+						name: "John"
+						email: "john@email.me"
 				return
 			'/sso/intranet': (req, res, next) ->
 				# TODO: check Authorization header
