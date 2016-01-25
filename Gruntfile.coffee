@@ -65,6 +65,8 @@ module.exports = (grunt) ->
 					req.body = body
 					if /^application\/x-www-form-urlencoded/.test req.headers['content-type']
 						req.params = qs.parse body
+					if /^application\/json/.test req.headers['content-type']
+						req.params = JSON.parse body
 					next()
 				return
 			parse_cookies: (req, res, next) ->
