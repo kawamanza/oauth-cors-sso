@@ -3,6 +3,7 @@ module.exports = (grunt) ->
 	crypto = require 'crypto'
 	tokens =
 		_my_session_token: "1ab5c"
+		_signer_csrf_token: "1ab5c_csrf"
 		_my_panel_session_token: "1234567"
 
 	routes =
@@ -22,6 +23,10 @@ module.exports = (grunt) ->
 				if req.cookies._my_session_token isnt tokens._my_session_token
 					res.writeHead 403, "Content-Type": "application/json; charset=UTF-8"
 					res.end JSON.stringify req.cookies
+					return
+				if req.params._csrf_token isnt tokens._signer_csrf_token
+					res.writeHead 412, "Content-Type": "application/json; charset=UTF-8"
+					res.end JSON.stringify req.params
 					return
 				signer = crypto.createSign "RSA-SHA1"
 				signer.update req.params.baseString

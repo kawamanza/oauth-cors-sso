@@ -5,7 +5,7 @@ describe("Calling /signer of current webapp", function () {
 				path: "/signer",
 				csrf_param: {
 					name: "_csrf_token",
-					value: ""
+					value: expectedTokens._signer_csrf_token
 				}
 			}
 		});
@@ -34,7 +34,7 @@ describe("Creating authenticated session into external domain", function () {
 				path: "/signer",
 				csrf_param: {
 					name: "_csrf_token",
-					value: ""
+					value: expectedTokens._signer_csrf_token
 				}
 			}
 		});
