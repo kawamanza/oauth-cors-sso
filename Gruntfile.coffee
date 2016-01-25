@@ -39,7 +39,14 @@ module.exports = (grunt) ->
 						email: "john@email.me"
 				return
 			'/sso/intranet': (req, res, next) ->
-				# TODO: check Authorization header
+				unless /^OAuth\s+/.test req.headers.authorization
+					res.writeHead 412, "Content-Type": "application/json; charset=UTF-8"
+					res.end JSON.stringify req.headers
+					return
+				if typeof req.params.userData isnt "object"
+					res.writeHead 422, "Content-Type": "application/json; charset=UTF-8"
+					res.end JSON.stringify req.params
+					return
 				res.setHeader "Content-Type", "application/json; charset=UTF-8"
 				expires = new Date()
 				expires.setTime(expires.getTime() + 3600000)

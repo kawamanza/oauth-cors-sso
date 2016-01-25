@@ -63,10 +63,11 @@
 				oauthParams.oauth_signature = data.signature;
 				$.ajax(sso.service_url, {
 					method: "POST",
-					data: data.userinfo || {},
+					data: JSON.stringify({userData: data.userData}),
 					dataType: "json",
-					contentType: "json",
+					contentType: "application/json; charset=UTF-8",
 					crossDomain: true,
+					jsonp: false,
 					xhrFields: {
 						withCredentials: true
 					},
