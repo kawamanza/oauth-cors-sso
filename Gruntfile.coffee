@@ -12,7 +12,7 @@ module.exports = (grunt) ->
 				res.end JSON.stringify(cookies: req.cookies)
 				return
 			'/new_session.js': (req, res, next) ->
-				res.setHeader "Set-Cookie", "_my_session_token=1ab5c"
+				res.setHeader "Set-Cookie", "_my_session_token=#{tokens._my_session_token}"
 				res.setHeader "Content-Type", "text/javascript; charset=UTF-8"
 				res.end "var expectedTokens = #{JSON.stringify(tokens)};"
 				return
