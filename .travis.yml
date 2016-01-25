@@ -5,3 +5,5 @@ addons:
   hosts:
     - local-sso.panel.my-webapp.com
     - local-intranet.panel.my-webapp.com
+after_success:
+  - coveralls
