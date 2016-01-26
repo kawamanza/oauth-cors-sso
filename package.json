@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/kawamanza/oauth-cors-sso#readme",
   "devDependencies": {
+    "coveralls": "^2.11.6",
     "grunt": "^0.4.5",
     "grunt-bower-task": "^0.4.0",
     "grunt-cli": "^0.1.13",
