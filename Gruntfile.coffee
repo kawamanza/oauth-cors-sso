@@ -133,7 +133,10 @@ module.exports = (grunt) ->
 				template: require('grunt-template-jasmine-istanbul')
 				templateOptions:
 					coverage: 'bin/coverage/coverage.json'
-					report: 'bin/coverage'
+					report:
+						type: 'lcov'
+						options:
+							dir: 'bin/coverage'
 					thresholds:
 						lines: 75
 						statements: 75
