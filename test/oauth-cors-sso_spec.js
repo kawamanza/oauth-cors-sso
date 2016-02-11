@@ -1,3 +1,16 @@
+describe("Signature Base String generation", function () {
+	it("expects to generate the baseString according to specification", function () {
+		var baseString, oauth = new OAuthSSO({
+			sso: {
+				service_url: "http://local-sso.panel.my-webapp.com:9001/sso/intranet",
+				consumer_key: "key"
+			}
+		});
+		baseString = oauth.baseString($.extend(oauth.headerParams(), {oauth_timestamp: "1455225872", oauth_nonce: "nonce"}));
+		expect(baseString).toEqual("POST&http%3A%2F%2Flocal-sso.panel.my-webapp.com%3A9001%2Fsso%2Fintranet&oauth_consumer_key%3Dkey%26oauth_nonce%3Dnonce%26oauth_timestamp%3D1455225872%26oauth_signature_method%3DRSA-SHA1%26oauth_version%3D1.0");
+	});
+});
+
 describe("Calling /signer of current webapp", function () {
 	it("expects to sign the Signature-Base-String by Ajax", function(done) {
 		var oauth = new OAuthSSO({

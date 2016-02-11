@@ -107,6 +107,15 @@
 		next();
 	}
 
+	// Utils
+
+	// See: http://oauth.net/core/1.0/#encoding_parameters
+	function rfc3986_oauth_encode(content) {
+		var escaped_chars;
+		escaped_chars = /[^0-9a-zA-Z%\-\._~]/g;
+		return encodeURIComponent(content).replace(escaped_chars, escape);
+	}
+
 	// OAuth helpers
 
 	function oauth_nonce(length) {
@@ -128,13 +137,11 @@
 	}
 
 	function baseStringUrl(url) {
-		// TODO: encode string acording to OAuth Spec
-		return url;
+		return rfc3986_oauth_encode(url.toLowerCase());
 	}
 
 	function baseStringParams(params) {
-		// TODO: encode string acording to OAuth Spec
-		return $.param(params);
+		return rfc3986_oauth_encode($.param(params));
 	}
 
 	function dumpOAuthHeader(oauthParams) {
