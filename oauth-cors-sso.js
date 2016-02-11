@@ -38,30 +38,35 @@
 		});
 	};
 
-	OAuthSSO.prototype.auth = function (callback) {
-		var baseString, oauth, oauthParams, signer, sso;
-		oauth = this;
-		signer = oauth.options.signer;
-		sso = oauth.options.sso;
-		oauthParams = {
-			oauth_consumer_key: sso.consumer_key,
+	OAuthSSO.prototype.headerParams = function () {
+		return {
+			oauth_consumer_key: this.options.sso.consumer_key,
 			oauth_nonce: oauth_nonce(),
 			oauth_timestamp: oauth_timestamp(),
 			oauth_signature_method: "RSA-SHA1",
 			oauth_version: "1.0"
 		};
-		baseString = [
+	};
+
+	OAuthSSO.prototype.baseString = function (params) {
+		return [
 			"POST",
-			baseStringUrl(sso.service_url),
-			baseStringParams(oauthParams)
+			baseStringUrl(this.options.sso.service_url),
+			baseStringParams(params || this.headerParams())
 		].join("&");
+	};
+
+	OAuthSSO.prototype.auth = function (callback) {
+		var oauth, oauthParams;
+		oauth = this;
+		oauthParams = oauth.headerParams();
 		waterfall([
 			function (callback) {
-				oauth.sign(baseString, callback);
+				oauth.sign(oauth.baseString(oauthParams), callback);
 			},
 			function (data, callback) {
 				oauthParams.oauth_signature = data.signature;
-				$.ajax(sso.service_url, {
+				$.ajax(oauth.options.sso.service_url, {
 					method: "POST",
 					data: JSON.stringify({userData: data.userData}),
 					dataType: "json",
