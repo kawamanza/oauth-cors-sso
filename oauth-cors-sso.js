@@ -97,6 +97,8 @@
 		});
 	};
 
+	// Utils
+
 	function waterfall(tasks, callback) {
 		var iterator = tasks.slice(0);
 		function next(err) {
@@ -110,8 +112,6 @@
 		}
 		next();
 	}
-
-	// Utils
 
 	// See: http://oauth.net/core/1.0/#encoding_parameters
 	function rfc3986_oauth_encode(content) {
