@@ -117,7 +117,7 @@
 	function rfc3986_oauth_encode(content) {
 		var escaped_chars;
 		escaped_chars = /[^0-9a-zA-Z%\-\._~]/g;
-		return encodeURIComponent(content).replace(escaped_chars, escape);
+		return encodeURIComponent(content).replace(escaped_chars, escape).replace(/\*/g, '%2A');
 	}
 
 	// OAuth helpers
@@ -131,7 +131,7 @@
 			length = Math.floor(Math.random() * 8) + 8;
 		}
 		for (var i = 0; i < length; i++) {
-				text += possible.charAt(Math.floor(Math.random() * pLen));
+			text += possible.charAt(Math.floor(Math.random() * pLen));
 		}
 		return text;
 	}
