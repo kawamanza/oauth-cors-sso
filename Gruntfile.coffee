@@ -140,7 +140,7 @@ module.exports = (grunt) ->
 					thresholds:
 						lines: 75
 						statements: 75
-						branches: 60
+						branches: 55
 						functions: 90
 			src: [
 				'oauth-cors-sso.js'

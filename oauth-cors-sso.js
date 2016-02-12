@@ -149,8 +149,14 @@
 	}
 
 	function dumpOAuthHeader(oauthParams) {
-		// TODO: encode string acording to OAuth Spec
-		return $.param(oauthParams).split("&").join(",").replace(/([^,=]+)=([^,]+)/g, "$1=\"$2\"");
+		var key, params;
+		params = [];
+		for (key in oauthParams) {
+			if (oauthParams.hasOwnProperty(key)) {
+				params.push(key + '="' + rfc3986_oauth_encode(oauthParams[key]) + '"');
+			}
+		}
+		return params.join(",");
 	}
 
 });
