@@ -6,8 +6,21 @@ describe("Signature Base String generation", function () {
 				consumer_key: "key"
 			}
 		});
-		baseString = oauth.baseString($.extend(oauth.headerParams(), {oauth_timestamp: "1455225872", oauth_nonce: "nonce"}));
-		expect(baseString).toEqual("POST&http%3A%2F%2Flocal-sso.panel.my-webapp.com%3A9001%2Fsso%2Fintranet&oauth_consumer_key%3Dkey%26oauth_nonce%3Dnonce%26oauth_timestamp%3D1455225872%26oauth_signature_method%3DRSA-SHA1%26oauth_version%3D1.0");
+		baseString = oauth.baseString($.extend(oauth.headerParams(), {oauth_timestamp: "1452686123", oauth_nonce: "nonce"}));
+		expect(baseString).toEqual("POST&http%3A%2F%2Flocal-sso.panel.my-webapp.com%3A9001%2Fsso%2Fintranet&oauth_consumer_key%3Dkey%26oauth_nonce%3Dnonce%26oauth_timestamp%3D1452686123%26oauth_signature_method%3DRSA-SHA1%26oauth_version%3D1.0");
+	});
+});
+
+describe("Authorization header", function () {
+	it("expects to build the OAuth Authorization header according to specification", function () {
+		var oauthParams, oauth = new OAuthSSO({
+			sso: {
+				service_url: "http://local-sso.panel.my-webapp.com:9001/sso/intranet",
+				consumer_key: "key"
+			}
+		});
+		oauthParams = $.extend(oauth.headerParams(), {oauth_timestamp: "1452686123", oauth_nonce: "nonce", oauth_signature: "signature"});
+		expect(oauth.buildOAuthHeader(oauthParams)).toEqual('OAuth oauth_consumer_key="key",oauth_nonce="nonce",oauth_timestamp="1452686123",oauth_signature_method="RSA-SHA1",oauth_version="1.0",oauth_signature="signature"');
 	});
 });
 

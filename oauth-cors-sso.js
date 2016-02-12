@@ -56,6 +56,10 @@
 		].join("&");
 	};
 
+	OAuthSSO.prototype.buildOAuthHeader = function (oauthParams) {
+		return "OAuth " + dumpOAuthHeader(oauthParams);
+	};
+
 	OAuthSSO.prototype.auth = function (callback) {
 		var oauth, oauthParams;
 		oauth = this;
@@ -77,7 +81,7 @@
 						withCredentials: true
 					},
 					beforeSend: function (xhr) {
-						xhr.setRequestHeader("Authorization", "OAuth " + dumpOAuthHeader(oauthParams));
+						xhr.setRequestHeader("Authorization", oauth.buildOAuthHeader(oauthParams));
 					},
 					statusCode: {
 						200: function (data, textStatus, jqXHR) {
