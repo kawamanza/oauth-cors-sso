@@ -29,3 +29,48 @@ This web-component requires a service into your website to sign the OAuth base-s
         Content-Type: application/json; charset=UTF-8
         
         {"signature":"base_string_signed","userData":{"name":"John","email":"john@email.me"}}
+
+## Configuration
+
+Include the web-component on the page and make its setup:
+
+```html
+<script type="text/javascript" src="/js/jquery.js"></script>
+<script type="text/javascript" src="/js/oauth-cors-sso.js"></script>
+<script type="text/javascript">
+        function redirectToExternalWebapp(event) {
+                var oauth;
+                if (event) event.preventDefault();
+                oauth = new OAuthSSO({
+                        "sso": {
+                                "service_url": "https://sso.external-webapp.com/sso-service/products",
+                                "consumer_key": "my_granted_webapp_source"
+                        },
+                        "signer": {
+                                "path": "/external-webapp-signer",
+                                "csrf_param": {
+                                        "name": "_csrf_token",
+                                        "value": "1a5bc"
+                                }
+                        }
+                });
+                oauth.auth(function (external_webapp_url) {
+                        window.location = external_webapp_url;
+                });
+        }
+</script>
+```
+
+Usage example:
+
+```html
+<html>
+<head>
+  <!-- add the scripts here -->
+</head>
+
+<body>
+  <a href="javascript: redirectToExternalWebapp(event)">Go to external WebApp!</a>
+</body>
+</html>
+```
